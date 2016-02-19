@@ -2,7 +2,10 @@
  * Модульный framework
  * @namespace Modules
  */
-(window['Modules'] && window['Modules'].load) || (window['Modules'] = window[window['Modules'].name] = function(Modules) {
+
+(Modules = window.Modules || {}).name = Modules.name || 'Modules';
+
+(Modules && Modules.load) || (Modules = window[Modules.name] = function(Modules) {
     var modules = {},
         paths = {},
         packages = {},
@@ -64,8 +67,8 @@
 
     var runHooks = function() {
         var runnable = [];
-        hooks = hooks.filter(function(hook) {
-            return (hook[1].filter(function(module) {
+        hooks = A(hooks).filter(function(hook) {
+            return (A(hook[1]).filter(function(module) {
                     return !modules[module];
                 }).length > 0) || (function() {
                     runnable.push(function(f, api) {
@@ -75,16 +78,16 @@
                     }(hook[0], makeApi(hook[1])));
                 })();
         });
-        runnable.forEach(function(f) {
+        A(runnable).forEach(function(f) {
             f();
         });
     };
 
     var makeApi = function(list) {
         var api = {};
-        list.forEach(function(path) {
+        A(list).forEach(function(path) {
             var x = api, l = path.split("."), last = l.pop();
-            l.forEach(function(point) {
+            A(l).forEach(function(point) {
                 x = x[point] || (x[point] = {})
             });
             x[last] = modules[path];
@@ -167,14 +170,14 @@
     var load = function(list) {
         var expand = function(string) {
             var m = string.match(/^(.*)\((.*)\)$/) || [];
-            return (m.length == 3) ? m[2].split("|").map(function(s) {
+            return (m.length == 3) ? A(m[2].split("|")).map(function(s) {
                 return m[1] + s;
             }) : [string];
         };
 
         var l = [];
-        list.forEach(function(path) {
-            expand(path).forEach(function(path) {
+        A(list).forEach(function(path) {
+            A(expand(path)).forEach(function(path) {
                 l.push(path);
                 //modules[path] || loadScript(findUrl(path));
             });
@@ -192,11 +195,6 @@
         return dst;
     };
 
-    console.log(window.Modules.name);
-
-    //if (window[Modules].name) {
-    //    window[window[Modules].name] = window[Modules];
-    //}
 
     return {
         load: function() {

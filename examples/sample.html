@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head lang="ru">
+	<script>
+		(Modules = window.Modules || {}).name = 'MyNamespace';
+	</script>
+	<script type="text/javascript" src="../source/modules.js"></script>
+	<script type="text/javascript" src="../source/modules.js"></script>
+	<script type="text/javascript" src="../source/plugins/date.js"></script>
+	<script type="text/javascript" src="../source/plugins/random.js"></script>
+
+	<script>
+		function log(message) {
+			var div = document.createElement('div');
+			div.innerHTML = message;
+			document.body.appendChild(div);
+		}
+	</script>
+
+</head>
+<body>
+
+	<pre>
+		&lt;script type="text/javascript" src="../source/plugins/date.js">&lt;/script>
+		&lt;script>
+			MyNamespace.load('date').run(function(api) {
+				var div = document.createElement('div');
+				div.innerHTML = 'api.date.unixtime() = ' + api.date.unixtime();
+				document.body.appendChild(div);
+			});
+		&lt;/script>
+	</pre>
+	<script>
+		MyNamespace.load('date').run(function(api) {
+			log('api.date.unixtime() = ' + api.date.unixtime());
+		});
+	</script>
+
+	<hr>
+	<pre>
+		&lt;script type="text/javascript" src="../source/plugins/random.js">&lt;/script>
+		&lt;script>
+			Modules.load('random').run(function(api) {
+				var div = document.createElement('div');
+				div.innerHTML = 'api.random.randomNumber() = ' + api.random.randomNumber();
+				document.body.appendChild(div);
+			});
+		&lt;/script>
+	</pre>
+
+	<script>
+		Modules.load('random').run(function(api) {
+			log('api.random.randomNumber() = ' + api.random.randomNumber());
+		});
+	</script>
+
+	<hr>
+	<pre>
+		&lt;script>
+			Modules.module("com.example.foo", function () {
+				return "foo";
+			});
+
+			Modules.load("com.example.foo").module("com.example.bar", function (api) {
+				return function () {
+					return [api.com.example.foo, "BAR"];
+				}
+			});
+
+			Modules.load("com.example.bar").module("com.example.zoo", function (api) {
+				var push = function (array, value) {
+					return (array.push(value), array);
+				};
+
+				return push(api.com.example.bar(), "Zoo");
+			});
+
+			Modules.load("com.example.zoo").run(function (api) {
+				var div = document.createElement('div');
+				div.innerHTML = 'api.com.example.zoo.join(":") = ' + api.com.example.zoo.join(":");
+				document.body.appendChild(div);
+			});
+		&lt;/script>
+	</pre>
+	<script>
+		Modules.module("com.example.foo", function () {
+			return "foo";
+		});
+
+		Modules.load("com.example.foo").module("com.example.bar", function (api) {
+			return function () {
+				return [api.com.example.foo, "BAR"];
+			}
+		});
+
+		Modules.load("com.example.bar").module("com.example.zoo", function (api) {
+			var push = function (array, value) {
+				return (array.push(value), array);
+			};
+
+			return push(api.com.example.bar(), "Zoo");
+		});
+
+		Modules.load("com.example.zoo").run(function (api) {
+			log('api.com.example.zoo.join(":") = ' + api.com.example.zoo.join(":")); // "foo:BAR:Zoo"
+		});
+	</script>
+
+</body>
+</html>
