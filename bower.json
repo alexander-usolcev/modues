@@ -2,7 +2,8 @@
   "name": "modules",
   "homepage": "https://github.com/alexander-usolcev/modules",
   "authors": [
-    "Alexander Usolcev <alexander.usolcev@gmail.com>"
+    "Alexander Usolcev <alexander.usolcev@gmail.com>",
+    "Alexander Usolcev <a.usolcev@tiomedia.eu>"
   ],
   "description": "Modules is minimalistic modular Javascript framework",
   "main": "source/modules.js",

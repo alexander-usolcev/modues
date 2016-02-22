@@ -1,6 +1,10 @@
 #Modules
 Modules - модульный фреймворк для работы с js файлами (модулями) инкапсулирующий их "видимость" (scope).
 
+#Установка
+* Клонировать репозиторий: git clone https://github.com/alexander-usolcev/modules.git.
+* Установка с помощью Bower: bower install Modules.
+
 #Использование
 Подключаем modules.js на странице
 
@@ -63,7 +67,7 @@ Modules - модульный фреймворк для работы с js фай
     });
      
     Modules.load("com.example.zoo").run(function (api) {
-      alert(api.com.example.zoo.join(":"); // "foo:BAR:Zoo"
+        alert(api.com.example.zoo.join(":"); // "foo:BAR:Zoo"
     });
     
 Единственным аргументом (в примере выше - api), передаваемым в constructor является хэш, содержащий точки входа задекларированных в load() зависимостей. 
