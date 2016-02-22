@@ -196,6 +196,9 @@
     };
 
 
+    /**
+     * @type {Object}
+     */
     return {
         load: function() {
             return Code(load(Array.prototype.slice.call(arguments)));
