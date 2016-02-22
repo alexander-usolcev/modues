@@ -74,7 +74,7 @@ Modules - модульный фреймворк для работы с js фай
       alert(api.com.example.bar) // undefined
     });
     
-##.publicateAPI(name, {object|string|number....}) -> {object|string|number....}
+##.publicateAPI(name, {Any}) -> {Any}
 Используется в декларации модуля, когда нужно не просто вернуть что-то, а добавить это что-то в window.Modules контекст.
 
     Modules.module("cache", function(api) {
