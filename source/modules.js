@@ -179,7 +179,7 @@
         A(list).forEach(function(path) {
             A(expand(path)).forEach(function(path) {
                 l.push(path);
-                modules[path] || loadScript(findUrl(path));
+                //modules[path] || loadScript(findUrl(path));
             });
         });
 
