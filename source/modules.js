@@ -106,7 +106,7 @@
             module: function(name, f) {
                 dependencies[name] || (dependencies[name] = api);
 
-                api.forEach(function(module) {
+                A(api).forEach(function(module) {
                     if (dependencies[module]) {
                         if (dependencies[module].indexOf(name) != -1) {
                             warn('Cross modular relation between modules "%s" and "%s". Modules not loaded.', name, module);
@@ -179,7 +179,8 @@
         A(list).forEach(function(path) {
             A(expand(path)).forEach(function(path) {
                 l.push(path);
-                //modules[path] || loadScript(findUrl(path));
+
+                modules[path] || setTimeout(function(){ modules[path] || loadScript(findUrl(path)) }, 50);
             });
         });
 

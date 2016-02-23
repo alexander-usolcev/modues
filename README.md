@@ -1,5 +1,5 @@
 #Modules
-Modules - модульный фреймворк для работы с js файлами (модулями) инкапсулирующий их "видимость" (scope).
+Modules - модульный фреймворк для работы с js файлами (модулями) инкапсулирующий их "видимость" (scope) c возможностью динамической подгрузки модулей.
 
 #Установка
 * Клонировать репозиторий: git clone https://github.com/alexander-usolcev/modules.git.
@@ -12,6 +12,7 @@ Modules - модульный фреймворк для работы с js фай
 
 Теперь создадим новый модуль 
 
+    ```javascript
     Modules.module("projectname.sum", function (api) {
      
         var sum = function (a, b) {
@@ -20,19 +21,23 @@ Modules - модульный фреймворк для работы с js фай
   
         return sum;
     });
+    ```
 
 Где то в коде можно использовать созданный модуль:
 
+    ```javascript
     Modules.load("projectname.sum").run(function (api) {
         alert(api.projectname.sum(100, 230));
     });
-        
+    ```    
         
 #API
 
 ##.load(<modules>) -> Code object
-Загружает указанные модули, включая требуемые зависимости. Модули загружаются согласно путям, установленным ранее через addPath, addPackage.
+Загружает указанные модули, включая требуемые зависимости. Если модуль не был найден локально, он будет запрошен по сети.
+Модули загружаются согласно путям, установленным ранее через addPath, addPackage.
 
+    ```javascript
     // загрузим три модуля
     Modules.load("com.example.foo", "com.example.bar", "com.example.zoo").run(function(api){
         ...
@@ -42,12 +47,14 @@ Modules - модульный фреймворк для работы с js фай
     Modules.load("com.example.(foo|bar|zoo)").run(function(api){
       ...
     });
+    ```
     
 ##.module(name, constructor) -> void
 Декларирует модуль name и вызывает constructor для инициализации модуля. 
 Обычно, constructor возвращает что-то (объект, функция, значение), что будет использоваться пользовательским кодом позже.
 Перед декларацией модуля можно указать список зависимостей, использовав Modules.load().
 
+    ```javascript
     Modules.module("com.example.foo", function () {
         return "foo";
     });
@@ -69,18 +76,41 @@ Modules - модульный фреймворк для работы с js фай
     Modules.load("com.example.zoo").run(function (api) {
         alert(api.com.example.zoo.join(":"); // "foo:BAR:Zoo"
     });
+    ```
     
 Единственным аргументом (в примере выше - api), передаваемым в constructor является хэш, содержащий точки входа задекларированных в load() зависимостей. 
 Вложенные зависимости отсутствуют в api:
 
     Modules.load("com.example.zoo").run(function (api) {
-      alert(api.com.example.zoo.join(":")); // "foo:BAR:Zoo"
-      alert(api.com.example.bar) // undefined
+        alert(api.com.example.zoo.join(":")); // "foo:BAR:Zoo"
+        alert(api.com.example.bar) // undefined
     });
+    
+##.addPath(prefix, path) -> void
+Устанавливает префикс пути path, который будет использоваться для загрузки модулей с префиксом prefix.
+
+    ```javascript
+    Modules.addPath("com.skype.", "http://skype.com/js");
+
+    Modules.load("com.skype.messenger"); // запрос к http://skype.com/js/messenger.js
+    Modules.load("com.skype.proxy.video"); // запрос к http://skype.com/js/proxy/video.js
+    ```
+    
+##.addPackage(prefix, package) -> void
+Указывает, что модули с префиксом имени prefix находятся в файле package. 
+При загрузке нескольких модулей с данным префиксом, обращение к package будет выполнено только один раз.
+
+    ```javascript
+    Modules.addPackage("some-module", "http://my-domain/js-api/compressed.js");
+
+    Modules.load("some-module"); // запрос к http://my-domain/js-api/compressed.js
+    ```
+
     
 ##.publicateAPI(name, {Any}) -> {Any}
 Используется в декларации модуля, когда нужно не просто вернуть что-то, а добавить это что-то в window.Modules контекст.
 
+    ```javascript
     Modules.module("cache", function(api) {
         var cache = function(key){
             // something...
@@ -92,6 +122,7 @@ Modules - модульный фреймворк для работы с js фай
     });
     
     Modules.cache(); // 'cache module';
+    ```
  
 #Использование global name
 Вместо global переменной `Modules` можно использовать свою (к примеру название проекта)
@@ -105,6 +136,7 @@ Modules - модульный фреймворк для работы с js фай
         
 И далее можно использовать как `Modules.` так и `MyNamespace.`
 
+    ```javascript
     MyNamespace.module("mymodule", function (api) {  
         return 'mymodule';
     });
@@ -112,5 +144,6 @@ Modules - модульный фреймворк для работы с js фай
     MyNamespace.load("mymodule").run(function (api) {
         alert(api.mymodule); // "mymodule"
     });
+    ```
         
         
