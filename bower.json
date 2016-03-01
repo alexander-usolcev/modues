@@ -5,7 +5,7 @@
     "Alexander Usolcev <alexander.usolcev@gmail.com>",
     "Alexander Usolcev <a.usolcev@tiomedia.eu>"
   ],
-  "description": "Modules is minimalistic modular Javascript framework",
+  "description": "Modules is minimalistic modular Javascript framework with dynamic modules loading support.",
   "main": "source/modules.js",
   "moduleType": "globals",
   "keywords": [

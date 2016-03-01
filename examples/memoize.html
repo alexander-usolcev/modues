@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Memoize</title>
+
+	<script type="text/javascript" src="../source/modules.js"></script>
+</head>
+<body>
+
+	<pre>
+		Modules.load("memoize").run(function (api) {
+			var Memoize = api.memoize();
+
+			var fib = function (n) {
+				return n > 1 ? fib(n - 1) + fib(n - 2) : (n > 0 ? 1 : 0);
+			};
+
+			var fast_fib = Memoize(function (n) {
+				return n > 1 ? fast_fib(n - 1) + fast_fib(n - 2) : (n > 0 ? 1 : 0);
+			});
+
+			var now = function () { return +new Date()};
+
+			var time = function (f) {
+				return function (t0) {
+					f();
+					return (now() - t0);
+				}(now());
+			};
+
+			alert("Fib timings: " + time(function () { fib(30) })); // ~14
+			alert("Fast Fib timings: " + time(function () { fast_fib(30) })); // ~0
+		});
+	</pre>
+
+	<script>
+		Modules.load("memoize").run(function (api) {
+			var Memoize = api.memoize();
+
+			var fib = function (n, s) {
+				return n > 1 ? fib(n - 1) + fib(n - 2, 'second') : (n > 0 ? 1 : 0);
+			};
+
+			var fast_fib = Memoize(function (n) {
+				return n > 1 ? fast_fib(n - 1) + fast_fib(n - 2) : (n > 0 ? 1 : 0);
+			});
+
+			var now = function () { return +new Date()};
+
+			var time = function (f) {
+				return function (t0) {
+					f();
+					return (now() - t0);
+				}(now());
+			};
+
+			alert("Fib timings: " + time(function () { fib(30) })); // ~14
+			alert("Fast Fib timings: " + time(function () { fast_fib(30) })); // ~0
+		});
+	</script>
+</body>
+</html>
