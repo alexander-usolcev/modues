@@ -38,8 +38,8 @@
 		Modules.load("memoize").run(function (api) {
 			var Memoize = api.memoize();
 
-			var fib = function (n, s) {
-				return n > 1 ? fib(n - 1) + fib(n - 2, 'second') : (n > 0 ? 1 : 0);
+			var fib = function (n) {
+				return n > 1 ? fib(n - 1) + fib(n - 2) : (n > 0 ? 1 : 0);
 			};
 
 			var fast_fib = Memoize(function (n) {
