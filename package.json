@@ -1,6 +1,6 @@
 {
-  "name": "modules-js",
-  "version": "1.0.0",
+  "name": "es5-modules",
+  "version": "1.0.1",
   "author": "Alexander Usolcev <alexander.usolcev@gmail.com>",
   "repository": {
     "type": "git",
