@@ -1,0 +1,24 @@
+{
+  "name": "modules-js",
+  "version": "1.0.0",
+  "author": "Alexander Usolcev <alexander.usolcev@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+github.com/alexander-usolcev/modules.git"
+  },
+  "keywords": [
+    "modules",
+    "plugins"
+  ],
+  "license": "MIT",
+  "description": "Modules is minimalistic modular Javascript framework with dynamic modules loading support.",
+  "homepage": "https://github.com/alexander-usolcev/modules",
+  "main": "source/modules.js",
+  "directories": {
+    "example": "examples"
+  },
+  "dependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
